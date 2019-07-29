@@ -58,11 +58,7 @@ class Core(internal val networkOperations: NetworkOperations) {
 
     val repositoriesProps = MutableLiveData<RepositoriesProps>()
 
-    val devProps = DevProps(Command(::openRepositories), Command(::openPlaybook))
-
-    suspend fun openRepositories() {
-        repositoriesPresenter.openRepositories()
-    }
+    val devProps = DevProps(Command(repositoriesPresenter::openRepositories), Command(::openPlaybook))
 
     fun openPlaybook() {
         routingOperations.openPlaybook()

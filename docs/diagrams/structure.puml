@@ -1,43 +1,78 @@
 @startuml Object Sctructure Diagramm
 
-object API
+object API {
+    repositories()
+}
 frame Services {
-    object NetworkService
-    object MainActivity
-    object Router
+    object NetworkService {
+        getAllRepositories()
+    }
+    object MainActivity {
+        disableBackButton: Boolean
+        showToast()
+    }
+    object Router {
+        popCurrentScreen()
+        openRepositories()
+    }
 }
 
 frame Core {
-    object Core    
-    frame Dependencies {
-        interface NetworkOperations
-        interface ActivityOperations
-        interface RoutingOperations    
+    object Core {
+        handleErrors()
+        registerRouting()
+        registerActivity()
     }
-    object RepositoriesPresenter
-    object RepositoriesState
+    frame Dependencies {
+        interface NetworkOperations {
+            getAllRepositories
+        }
+        interface ActivityOperations {
+            disableBackButton: Boolean
+            showToast()
+        }
+        interface RoutingOperations  {
+            popCurrentScreen()
+            openRepositories()
+        }   
+    }
+    object RepositoriesPresenter {
+        openRepositories()
+        present(State): Props
+    }
+    object RepositoriesState {
+        list: List<RepositoriesResponseModel>
+    }
 }
 
 frame RepositoryUI {
-    object RepositoriesProps
-    object RepositoriesFragment
+    object RepositoriesProps {
+        repositories: Repositories
+    }
+    object Repositories {
+        enum: Loaded, Empty, Loading
+    }
+    object RepositoriesFragment {
+        MutableLiveData<RepositoriesProps>
+    }
 }
 
-NetworkService --> API
+NetworkService -up-> API
 NetworkService ..|> NetworkOperations
 MainActivity ..|> ActivityOperations
 Router ..|> RoutingOperations
 
-Core --> RepositoriesProps
-Core --> RepositoriesPresenter
-Core --> NetworkOperations
-Core --> ActivityOperations
-Core --> RoutingOperations
+Core --> RepositoriesProps : DI
+Core -left-> RepositoriesPresenter
 
-RepositoriesPresenter ..> Core
-RepositoriesPresenter ..> RepositoriesProps
+Core -up-> NetworkOperations : DI
+Core -up-> ActivityOperations : Self assigned
+Core -up-> RoutingOperations : Self assigned
+
+RepositoriesPresenter ..> Core : For external Dependencies
+RepositoriesPresenter ..> RepositoriesProps : Change props trough present()
 RepositoriesPresenter --> RepositoriesState
-
-RepositoriesFragment ..> RepositoriesProps : Kodein injection
+RepositoriesProps --> Repositories
+RepositoriesFragment ..> RepositoriesProps
 
 @enduml
