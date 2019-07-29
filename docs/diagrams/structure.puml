@@ -1,0 +1,43 @@
+@startuml Object Sctructure Diagramm
+
+object API
+frame Services {
+    object NetworkService
+    object MainActivity
+    object Router
+}
+
+frame Core {
+    object Core    
+    frame Dependencies {
+        interface NetworkOperations
+        interface ActivityOperations
+        interface RoutingOperations    
+    }
+    object RepositoriesPresenter
+    object RepositoriesState
+}
+
+frame RepositoryUI {
+    object RepositoriesProps
+    object RepositoriesFragment
+}
+
+NetworkService --> API
+NetworkService ..|> NetworkOperations
+MainActivity ..|> ActivityOperations
+Router ..|> RoutingOperations
+
+Core --> RepositoriesProps
+Core --> RepositoriesPresenter
+Core --> NetworkOperations
+Core --> ActivityOperations
+Core --> RoutingOperations
+
+RepositoriesPresenter ..> Core
+RepositoriesPresenter ..> RepositoriesProps
+RepositoriesPresenter --> RepositoriesState
+
+RepositoriesFragment ..> RepositoriesProps : Kodein injection
+
+@enduml

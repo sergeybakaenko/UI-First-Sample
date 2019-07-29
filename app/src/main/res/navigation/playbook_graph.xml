@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/playbook_graph"
+    app:startDestination="@id/playbookFragment">
+    <fragment
+        android:id="@+id/playbookFragment"
+        android:name="com.forma.fit.ui.screens.playbook.PlaybookFragment"
+        android:label="PlaybookFragment">
+        <action android:id="@+id/openRepositories"
+                app:destination="@id/repositoriesFragment2"/>
+    </fragment>
+    <fragment android:id="@+id/repositoriesFragment2"
+              android:name="com.formafit.architecture.ui.repositories.RepositoriesFragment"
+              android:label="RepositoriesFragment"/>
+</navigation>

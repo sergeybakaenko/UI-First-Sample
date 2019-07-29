@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+                name="props"
+                type="com.formafit.architecture.ui.dev.DevProps"/>
+    </data>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+        <Button
+                android:text="Open Application"
+                android:onClick="@{() -> props.openApp.invoke()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button"/>
+
+        <Button
+                android:text="Open Playbook"
+                android:onClick="@{() -> props.openPlaybook.invoke()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:gravity="center"/>
+    </LinearLayout>
+</layout>
